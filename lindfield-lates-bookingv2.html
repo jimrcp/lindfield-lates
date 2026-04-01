@@ -1,54 +1,880 @@
-<!--
-  =============================================
-  LINDFIELD LATES — Shopify Embed Snippet
-  =============================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lindfield Lates — Book Your Friday Evening | Lindfield Coffee Works</title>
+    <meta name="description" content="Book your spot at Lindfield Lates — every Friday from 6pm at Lindfield Coffee Works. Cocktails, wine, beer, small plates & good vibes.">
 
-  Paste this into the Shopify theme via:
-  Online Store → Themes → Edit theme →
-  Lindfield Lates page → Add section → Custom Liquid
+    <!-- Fonts: match lindfieldcoffeeworks.co.uk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
 
-  HOW IT WORKS:
-  - Shows a centred "Book a Table" button
-  - On click, opens the booking page in a new tab
-  =============================================
--->
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<style>
-  .lcw-book-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.9rem 2rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    font-family: 'Anonymous Pro', monospace;
-    letter-spacing: 0.04em;
-    color: #f4f4f6;
-    background: #2d3042;
-    border: none;
-    border-radius: 40px;
-    box-shadow: 0px 2px 0px rgba(45, 48, 66, 0.15);
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    text-decoration: none;
-  }
-  .lcw-book-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0px 4px 0px rgba(45, 48, 66, 0.15);
-  }
-  .lcw-book-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0px 0px 0px rgba(45, 48, 66, 0.15);
-  }
-  .lcw-book-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-</style>
+        :root {
+            /* Colours — matched to lindfieldcoffeeworks.co.uk */
+            --bg: #f7ede7;
+            --bg-alt: #f4f4f6;
+            --fg: #2d3042;
+            --fg-muted: #6b6d7b;
+            --border: #d5ccc6;
+            --border-focus: #2d3042;
+            --btn-bg: #2d3042;
+            --btn-text: #f4f4f6;
+            --accent: #aeaebd;
+            --error: #c0392b;
+            --error-bg: #fdf0ef;
+            --success: #27ae60;
+            --success-bg: #edf7f0;
 
-<div style="text-align:center;padding:2rem 1rem;">
-  <a class="lcw-book-btn" href="https://jimrcp.github.io/lindfield-lates/lindfield-lates-bookingv2.html" target="_blank" rel="noopener">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-    Book a Table
-  </a>
-</div>
+            /* Typography */
+            --font-body: 'Anonymous Pro', monospace;
+            --font-heading: 'Manrope', sans-serif;
+
+            /* Shapes — matched to site */
+            --radius-input: 12px;
+            --radius-btn: 40px;
+            --shadow-input: 0px 6px 0px rgba(45, 48, 66, 0.06);
+            --shadow-btn: 0px 2px 0px rgba(45, 48, 66, 0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            line-height: 1.6;
+            letter-spacing: 0.02rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 3rem 1.5rem 2rem;
+        }
+
+        .brand-logo {
+            margin-bottom: 1.25rem;
+        }
+
+        .brand-logo a {
+            display: inline-block;
+        }
+
+        .brand-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 7vw, 3.2rem);
+            font-weight: 700;
+            color: var(--fg);
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 0.95rem;
+            color: var(--fg-muted);
+            max-width: 480px;
+            margin: 0 auto 0.5rem;
+            line-height: 1.7;
+        }
+
+        .event-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .detail-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(45, 48, 66, 0.06);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.9rem;
+            border-radius: 100px;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg);
+        }
+
+        .detail-chip svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+            opacity: 0.5;
+        }
+
+        /* Divider */
+        .divider {
+            width: 50px;
+            height: 1px;
+            background: var(--border);
+            margin: 0 auto;
+        }
+
+        /* Form section */
+        .form-section {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3rem;
+        }
+
+        .form-intro {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--fg-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        /* =============================================
+           CAPACITY INDICATOR
+           ============================================= */
+        .capacity-bar-wrapper {
+            margin-bottom: 2rem;
+        }
+
+        .capacity-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+
+        .capacity-label {
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--fg);
+        }
+
+        .capacity-count {
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+        }
+
+        .capacity-count strong {
+            color: var(--fg);
+            font-weight: 700;
+        }
+
+        .capacity-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(45, 48, 66, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .capacity-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: var(--fg);
+            transition: width 0.5s ease;
+        }
+
+        .capacity-fill.filling-up {
+            background: #e67e22;
+        }
+
+        .capacity-fill.full {
+            background: var(--error);
+        }
+
+        .capacity-full-msg {
+            text-align: center;
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .capacity-loading {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+            padding: 0.5rem 0;
+        }
+
+        /* =============================================
+           GOOGLE APPS SCRIPT SETUP
+           =============================================
+           This form uses a Google Apps Script backend to:
+           - Track bookings and capacity (40 guests per Friday)
+           - Send email notifications to the owner
+
+           SETUP:
+           1. Open the file "google-apps-script.js" included
+              alongside this HTML file
+           2. Go to https://script.google.com and create a new project
+           3. Paste the Apps Script code into the editor
+           4. Update the CONFIG at the top (owner email, etc.)
+           5. Click Deploy → New deployment → Web app
+              - Execute as: Me
+              - Who has access: Anyone
+           6. Copy the deployment URL and paste it below,
+              replacing the placeholder
+           ============================================= */
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        label {
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--fg);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+            color: var(--fg);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-input);
+            box-shadow: var(--shadow-input);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--accent);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--border-focus);
+            box-shadow: var(--shadow-input), 0 0 0 3px rgba(45, 48, 66, 0.08);
+        }
+
+        /* Select arrow */
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid var(--accent);
+            pointer-events: none;
+        }
+
+        select {
+            cursor: pointer;
+            padding-right: 2.5rem;
+        }
+
+        select option {
+            background: #fff;
+            color: var(--fg);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        /* Submit button — rounded pill style matching LCW site */
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+            color: var(--btn-text);
+            background: var(--btn-bg);
+            border: none;
+            border-radius: var(--radius-btn);
+            box-shadow: var(--shadow-btn);
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0px 4px 0px rgba(45, 48, 66, 0.15);
+        }
+
+        .btn-submit:active {
+            transform: translateY(1px);
+            box-shadow: 0px 0px 0px rgba(45, 48, 66, 0.15);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: var(--shadow-btn);
+        }
+
+        .btn-submit svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Success / error messages */
+        .form-message {
+            text-align: center;
+            padding: 1.25rem;
+            border-radius: var(--radius-input);
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .form-message.success {
+            background: var(--success-bg);
+            border: 1px solid rgba(39, 174, 96, 0.2);
+            color: #1e8449;
+        }
+
+        .form-message.error {
+            background: var(--error-bg);
+            border: 1px solid rgba(192, 57, 43, 0.2);
+            color: var(--error);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            font-size: 0.75rem;
+            color: var(--fg-muted);
+        }
+
+        footer a {
+            color: var(--fg);
+            text-decoration: underline;
+        }
+
+        footer a:hover {
+            text-decoration: none;
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 400px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 2.5rem 1.25rem 1.5rem;
+            }
+
+            .form-section {
+                padding: 1.5rem 1.25rem 2.5rem;
+            }
+        }
+
+        /* Subtle entrance animation */
+        @media (prefers-reduced-motion: no-preference) {
+            .hero, .form-section {
+                animation: fadeUp 0.6s ease-out both;
+            }
+            .form-section {
+                animation-delay: 0.15s;
+            }
+            @keyframes fadeUp {
+                from { opacity: 0; transform: translateY(12px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="brand-logo"><a href="https://lindfieldcoffeeworks.co.uk" target="_blank" rel="noopener"><img src="https://lindfieldcoffeeworks.co.uk/cdn/shop/files/logotransparent_e1eb5fd9-e75c-4fb0-8d30-2e756d5c005a.png?v=1770982952" alt="Lindfield Coffee Works"></a></div>
+        <h1>Lindfield Lates</h1>
+        <p class="tagline">Every Friday from 6 pm — cocktails, local wine &amp; beer, small plates, and the perfect start to your weekend.</p>
+
+        <div class="event-details">
+            <span class="detail-chip">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Every Friday
+            </span>
+            <span class="detail-chip">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                From 6 pm
+            </span>
+            <span class="detail-chip">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Happy Hour 6–7 pm
+            </span>
+        </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <section class="form-section">
+        <p class="form-intro">Reserve your spot — walk-ins are welcome too, but booking helps us save you the best seats.</p>
+
+        <!-- Capacity indicator -->
+        <div class="capacity-bar-wrapper" id="capacity-wrapper">
+            <div class="capacity-loading" id="capacity-loading">Checking availability&hellip;</div>
+            <div id="capacity-display" style="display:none;">
+                <div class="capacity-info">
+                    <span class="capacity-label">Availability</span>
+                    <span class="capacity-count"><strong id="spots-left">40</strong> of 40 spots left</span>
+                </div>
+                <div class="capacity-track">
+                    <div class="capacity-fill" id="capacity-fill" style="width:0%"></div>
+                </div>
+                <p class="capacity-full-msg" id="capacity-full-msg">This Friday is fully booked — try the following week!</p>
+            </div>
+        </div>
+
+        <!-- Success message (shown after submit) -->
+        <div id="form-success" class="form-message success" role="alert">
+            You're booked in! We'll send a confirmation to your email. See you Friday. &#127867;
+        </div>
+
+        <!-- Error message -->
+        <div id="form-error" class="form-message error" role="alert">
+            Something went wrong — please try again or email us directly.
+        </div>
+
+        <form id="booking-form">
+
+            <!-- Honeypot anti-spam (hidden from real users) -->
+            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:0.5">(optional)</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="07xxx xxxxxx" autocomplete="tel">
+            </div>
+
+            <div class="form-group">
+                <label for="date">Friday</label>
+                <div class="select-wrapper">
+                    <select id="date" name="date" required>
+                        <!-- Populated by JS with the next 4 Fridays -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="arrival">Arrival Time</label>
+                    <div class="select-wrapper">
+                        <select id="arrival" name="arrival" required>
+                            <option value="18:00">6:00 pm</option>
+                            <option value="18:15">6:15 pm</option>
+                            <option value="18:30">6:30 pm</option>
+                            <option value="18:45">6:45 pm</option>
+                            <option value="19:00">7:00 pm</option>
+                            <option value="19:15">7:15 pm</option>
+                            <option value="19:30">7:30 pm</option>
+                            <option value="19:45">7:45 pm</option>
+                            <option value="20:00">8:00 pm</option>
+                            <option value="20:15">8:15 pm</option>
+                            <option value="20:30">8:30 pm</option>
+                            <option value="20:45">8:45 pm</option>
+                            <option value="21:00">9:00 pm</option>
+                            <option value="21:15">9:15 pm</option>
+                            <option value="21:30">9:30 pm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="guests">Guests</label>
+                    <input type="number" id="guests" name="guests" min="1" max="16" value="2" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="requirements">Special Requirements <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:0.5">(optional)</span></label>
+                <textarea id="requirements" name="requirements" placeholder="Dietary needs, accessibility, birthday celebrations..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submit-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Book My Spot
+            </button>
+        </form>
+    </section>
+
+    <footer>
+        <a href="https://lindfieldcoffeeworks.co.uk" target="_blank" rel="noopener">lindfieldcoffeeworks.co.uk</a> &middot; Lindfield, West Sussex
+    </footer>
+
+    <script>
+        // =============================================
+        // CONFIGURATION — paste your Apps Script URL here
+        // =============================================
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-aymm2wZwZ_mcMSusJRRd5m4cAFdvnWfQJYZyujOf748Umd2Q2sALLlY5BJqQVlvL/exec';
+        const MAX_CAPACITY = 40;
+
+        // =============================================
+        // DATE DROPDOWN — auto-generated + schedule
+        // =============================================
+        // Generates the next 4 Fridays automatically, then
+        // fetches the Schedule tab from the Google Sheet to:
+        //   - Hide blocked dates (hide = true)
+        //   - Label dates with event names
+        //   - Include labelled dates beyond the 4-week window
+        // =============================================
+
+        /** Generate the next N Fridays from today as YYYY-MM-DD strings */
+        function getNextFridays(count) {
+            const fridays = [];
+            const d = new Date();
+            // Advance to the next Friday (or today if it's Friday and before midnight)
+            const day = d.getDay(); // 0=Sun, 5=Fri
+            let daysUntilFri = (5 - day + 7) % 7;
+            if (daysUntilFri === 0) daysUntilFri = 7; // if today is Friday, start from next Friday
+            d.setDate(d.getDate() + daysUntilFri);
+
+            for (let i = 0; i < count; i++) {
+                const yyyy = d.getFullYear();
+                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                const dd = String(d.getDate()).padStart(2, '0');
+                fridays.push(yyyy + '-' + mm + '-' + dd);
+                d.setDate(d.getDate() + 7);
+            }
+            return fridays;
+        }
+
+        /** Format a YYYY-MM-DD string as a human-readable label */
+        function formatDateLabel(dateStr) {
+            const d = new Date(dateStr + 'T12:00:00'); // noon to avoid timezone issues
+            return d.toLocaleDateString('en-GB', {
+                weekday: 'long', day: 'numeric', month: 'long'
+            });
+        }
+
+        /** Populate the date dropdown, merging auto-generated Fridays with schedule data */
+        function populateDateDropdown(schedule) {
+            const dateSelect = document.getElementById('date');
+            // Clear any existing options (keep the first placeholder if present)
+            dateSelect.innerHTML = '';
+
+            // Build lookup from schedule: { 'YYYY-MM-DD': { event, hide } }
+            const scheduleMap = {};
+            (schedule || []).forEach(entry => {
+                scheduleMap[entry.date] = { event: entry.event || '', hide: !!entry.hide };
+            });
+
+            // Start with the next 4 Fridays
+            const baseFridays = getNextFridays(4);
+
+            // Filter out hidden dates
+            const visibleFridays = baseFridays.filter(dateStr => {
+                const info = scheduleMap[dateStr];
+                return !info || !info.hide;
+            });
+
+            // Add any labelled (non-hidden) dates from the schedule that are
+            // beyond the 4-week window — lets Phoebe promote upcoming events early
+            const lastBaseDate = baseFridays[baseFridays.length - 1];
+            (schedule || []).forEach(entry => {
+                if (entry.hide) return;
+                if (!entry.event) return; // only pull in extra dates if they have a label
+                if (entry.date <= lastBaseDate) return; // already covered
+                if (entry.date < new Date().toISOString().slice(0, 10)) return; // skip past dates
+                visibleFridays.push(entry.date);
+            });
+
+            // Sort chronologically
+            visibleFridays.sort();
+
+            // Build the dropdown
+            if (visibleFridays.length === 0) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.textContent = 'No dates available — check back soon!';
+                dateSelect.appendChild(opt);
+            } else {
+                visibleFridays.forEach(dateStr => {
+                    const info = scheduleMap[dateStr];
+                    const eventName = info && info.event ? info.event : '';
+
+                    const opt = document.createElement('option');
+                    opt.value = dateStr;
+                    opt.textContent = eventName
+                        ? formatDateLabel(dateStr) + ' \u2014 ' + eventName
+                        : formatDateLabel(dateStr);
+                    dateSelect.appendChild(opt);
+                });
+            }
+
+            dateSelect.addEventListener('change', function () {
+                fetchCapacity();
+            });
+        }
+
+        // Fetch the schedule from Google Sheet, then populate dates
+        (async function initDates() {
+            let schedule = [];
+
+            if (APPS_SCRIPT_URL !== 'YOUR_APPS_SCRIPT_URL_HERE') {
+                try {
+                    const resp = await fetch(APPS_SCRIPT_URL + '?action=schedule');
+                    const data = await resp.json();
+                    schedule = data.schedule || [];
+                } catch (err) {
+                    console.error('Schedule fetch error:', err);
+                    // Fall back to showing default Fridays with no schedule data
+                }
+            }
+
+            populateDateDropdown(schedule);
+            fetchCapacity(); // load capacity for the initially-selected date
+        })();
+
+        // =============================================
+        // CAPACITY — fetch & display remaining spots
+        // =============================================
+        const capacityLoading = document.getElementById('capacity-loading');
+        const capacityDisplay = document.getElementById('capacity-display');
+        const spotsLeftEl     = document.getElementById('spots-left');
+        const capacityFill    = document.getElementById('capacity-fill');
+        const capacityFullMsg = document.getElementById('capacity-full-msg');
+        const submitBtn       = document.getElementById('submit-btn');
+        const bookingForm     = document.getElementById('booking-form');
+
+        const URGENCY_THRESHOLD = 10; // show availability bar when this many spots or fewer remain
+
+        function updateCapacityUI(booked) {
+            const remaining = Math.max(0, MAX_CAPACITY - booked);
+            const pct = (booked / MAX_CAPACITY) * 100;
+
+            spotsLeftEl.textContent = remaining;
+            capacityFill.style.width = pct + '%';
+
+            // Colour thresholds
+            capacityFill.classList.remove('filling-up', 'full');
+            if (remaining === 0) {
+                // Fully booked
+                capacityFill.classList.add('full');
+                capacityFullMsg.style.display = 'block';
+                capacityDisplay.style.display = 'block';
+                document.getElementById('capacity-wrapper').style.display = '';
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Fully Booked';
+            } else if (remaining <= URGENCY_THRESHOLD) {
+                // Nearly full — show the bar to create urgency
+                capacityFill.classList.add('filling-up');
+                capacityFullMsg.style.display = 'none';
+                capacityDisplay.style.display = 'block';
+                document.getElementById('capacity-wrapper').style.display = '';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Book My Spot';
+            } else {
+                // Plenty of space — hide the bar entirely
+                document.getElementById('capacity-wrapper').style.display = 'none';
+                capacityFullMsg.style.display = 'none';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Book My Spot';
+            }
+
+            capacityLoading.style.display = 'none';
+        }
+
+        async function fetchCapacity() {
+            const date = document.getElementById('date').value;
+            if (!date) return;
+
+            capacityLoading.style.display = 'block';
+            capacityDisplay.style.display = 'none';
+
+            // If Apps Script URL not configured, show full capacity available
+            if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+                updateCapacityUI(0);
+                return;
+            }
+
+            try {
+                const resp = await fetch(APPS_SCRIPT_URL + '?date=' + encodeURIComponent(date));
+                const data = await resp.json();
+                updateCapacityUI(data.booked || 0);
+            } catch (err) {
+                // On error, still show the form but don't show capacity
+                capacityLoading.textContent = 'Could not load availability';
+                console.error('Capacity fetch error:', err);
+            }
+        }
+
+        // (Initial fetchCapacity is called by initDates above)
+
+        // =============================================
+        // GUEST COUNT VALIDATION — warn if exceeds remaining
+        // =============================================
+        const guestsInput = document.getElementById('guests');
+        const guestsHint = document.createElement('p');
+        guestsHint.style.cssText = 'font-size:0.8rem;color:#c0392b;margin-top:0.25rem;display:none;';
+        guestsInput.parentNode.appendChild(guestsHint);
+
+        const MAX_GUESTS = 16;
+
+        guestsInput.addEventListener('input', function () {
+            const remaining = parseInt(spotsLeftEl.textContent, 10);
+            let requested = parseInt(this.value, 10) || 0;
+
+            // Enforce hard cap
+            if (requested > MAX_GUESTS) {
+                this.value = MAX_GUESTS;
+                requested = MAX_GUESTS;
+            }
+            if (requested < 1) return;
+
+            // Check against remaining capacity
+            if (requested > remaining && remaining > 0) {
+                this.value = remaining;
+                guestsHint.textContent = 'Only ' + remaining + ' spots left this Friday \u2014 we\u2019ve adjusted your number.';
+                guestsHint.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Book My Spot';
+            } else {
+                guestsHint.style.display = 'none';
+                if (remaining > 0) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Book My Spot';
+                }
+            }
+        });
+
+        // =============================================
+        // FORM SUBMISSION — POST to Google Apps Script
+        // =============================================
+        (function handleSubmit() {
+            const form     = bookingForm;
+            const btn      = submitBtn;
+            const successMsg = document.getElementById('form-success');
+            const errorMsg   = document.getElementById('form-error');
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                // Honeypot check
+                if (form.querySelector('[name="_gotcha"]').value) return;
+
+                btn.disabled = true;
+                btn.textContent = 'Sending\u2026';
+                successMsg.style.display = 'none';
+                errorMsg.style.display = 'none';
+
+                const payload = {
+                    name:         document.getElementById('name').value,
+                    email:        document.getElementById('email').value,
+                    phone:        document.getElementById('phone').value,
+                    date:         document.getElementById('date').value,
+                    arrival:      document.getElementById('arrival').value,
+                    guests:       document.getElementById('guests').value,
+                    requirements: document.getElementById('requirements').value
+                };
+
+                // If Apps Script not configured, show success anyway (for testing)
+                if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+                    form.style.display = 'none';
+                    document.getElementById('capacity-wrapper').style.display = 'none';
+                    successMsg.style.display = 'block';
+                    return;
+                }
+
+                try {
+                    const resp = await fetch(APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain' }, // avoid CORS preflight
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await resp.json();
+
+                    if (data.success) {
+                        form.style.display = 'none';
+                        document.getElementById('capacity-wrapper').style.display = 'none';
+                        successMsg.style.display = 'block';
+                    } else if (data.error === 'full') {
+                        errorMsg.textContent = 'Sorry, this Friday just filled up! Please try another date.';
+                        errorMsg.style.display = 'block';
+                        fetchCapacity(); // refresh the counter
+                        btn.disabled = false;
+                        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Book My Spot';
+                    } else {
+                        throw new Error(data.error || 'Unknown error');
+                    }
+                } catch (err) {
+                    errorMsg.textContent = 'Something went wrong \u2014 please try again or email us directly.';
+                    errorMsg.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Book My Spot';
+                }
+            });
+        })();
+    </script>
+
+</body>
+</html>
